@@ -20,24 +20,32 @@ int main()
 	col = img.cols;
 	int cn = img.channels();
 
-	// cout<< img;
-	Mat_<Vec3b> imgmat = img;
-	uchar *p;
-	for(int i=0; i<row; i++)
-	{	
-		Vec3b* ptr = img.ptr<Vec3b>(i);
-		for(j=0; j<col; j++)
-		{
-			// Vec3b bgrPixel = img.at<Vec3b>(i, j);
-			ptr[j] = Vec3b(ptr[j][2], ptr[j][1], ptr[j][0]);
-			if(ptr[j] == Vec3b(236, 188, 62))
-			{	
-				ptr[j] = Vec3b(0, 0, 0);
-			}
-			cout<<ptr[j]<<endl;
-		}
+	Mat hsv, mask1, mask2;
+	cvtColor(img, hsv, COLOR_BGR2HSV);
 
-	}
+	inRange(hsv, Scalar(230, 170, 50), Scalar(240, 255, 255), mask1);
+	inRange(hsv, Scalar(230, 170, 50), Scalar(245, 255, 255), mask2);
+
+	mask1 = mask1 + mask2;
+
+	// // cout<< img;
+	// Mat_<Vec3b> imgmat = img;
+	// uchar *p;
+	// for(int i=0; i<row; i++)
+	// {	
+	// 	Vec3b* ptr = img.ptr<Vec3b>(i);
+	// 	for(j=0; j<col; j++)
+	// 	{
+	// 		// Vec3b bgrPixel = img.at<Vec3b>(i, j);
+	// 		ptr[j] = Vec3b(ptr[j][2], ptr[j][1], ptr[j][0]);
+	// 		if(ptr[j] == Vec3b(236, 188, 62))
+	// 		{	
+	// 			ptr[j] = Vec3b(0, 0, 0);
+	// 		}
+	// 		cout<<ptr[j]<<endl;
+	// 	}
+
+	// }
 
 	// cout<<img;
 	// namedWindow("Display window", WINDOW_AUTOSIZE);
