@@ -23,10 +23,22 @@ int main()
 	Mat hsv, mask1, mask2;
 	cvtColor(img, hsv, COLOR_BGR2HSV);
 
-	inRange(hsv, Scalar(230, 170, 50), Scalar(240, 255, 255), mask1);
-	inRange(hsv, Scalar(230, 170, 50), Scalar(245, 255, 255), mask2);
+	inRange(hsv, Scalar(20, 120, 70), Scalar(40, 255, 255), mask1);
+	inRange(hsv, Scalar(170, 120, 70), Scalar(180, 255, 255), mask2);
 
 	mask1 = mask1 + mask2;
+	Mat kernel = Mat::ones(3,3, CV_32F);
+	morphologyEx(mask1,mask1,MORPH_OPEN,kernel);
+	morphologyEx(mask1,mask1,MORPH_DILATE,kernel);
+
+	bitwise_not(mask1,mask2);
+	Mat res1, res2, final_output;
+
+	// Segmenting the cloth out of the frame using bitwise and with the inverted mask
+	bitwise_and(img,img,res1,mask1);
+	imshow("original", img);
+	imshow("magic", res1);
+	// cout<<res1;
 
 	// // cout<< img;
 	// Mat_<Vec3b> imgmat = img;
@@ -51,8 +63,6 @@ int main()
 	// namedWindow("Display window", WINDOW_AUTOSIZE);
     // imshow("Display window,img);
 
-    // waitKey(0);
+    waitKey(0);
 	return 0;
-	
-
 }
