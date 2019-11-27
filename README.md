@@ -1,6 +1,6 @@
 # opencv_codes
 
-### Introduction
+### Description
 
 The following code contain colour detection, colour tracking and basic drawing using OpenCv.
 
