@@ -1,8 +1,9 @@
+// To detect a color in the image
+
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-// #include <opencv2/imgcodecs/imgcodecs.hpp>
 
 using namespace std;
 using namespace cv;
@@ -15,23 +16,23 @@ int main()
 	// cv:Mat mat;
 	Scalar_<uint8_t> bgrPixel;
 
-	Mat img = imread("pik.png", IMREAD_COLOR);
+	Mat img = imread("pik.png", IMREAD_COLOR);  // reading the image
 	row = img.rows;
 	col = img.cols;
-	int cn = img.channels();
 
 	Mat hsv, mask1, mask2;
-	cvtColor(img, hsv, COLOR_BGR2HSV);
+	cvtColor(img, hsv, COLOR_BGR2HSV);   /* converting image from RGB to HSV space because RGB is very
+										    sensitive to the the illumination */
 
-	inRange(hsv, Scalar(20, 120, 70), Scalar(40, 255, 255), mask1);
-	inRange(hsv, Scalar(170, 120, 70), Scalar(180, 255, 255), mask2);
+	inRange(hsv, Scalar(20, 120, 70), Scalar(40, 255, 255), mask1); 	// creating mask to detect lower color
+	inRange(hsv, Scalar(170, 120, 70), Scalar(180, 255, 255), mask2);	// creating mask to detect upper color
 
-	mask1 = mask1 + mask2;
+	mask1 = mask1 + mask2;				// Final mask (Two masks because in HSV colors are represented in the form of a circle)
 	Mat kernel = Mat::ones(3,3, CV_32F);
-	morphologyEx(mask1,mask1,MORPH_OPEN,kernel);
+	morphologyEx(mask1,mask1,MORPH_OPEN,kernel); // Removing noise from the Mask
 	morphologyEx(mask1,mask1,MORPH_DILATE,kernel);
 
-	bitwise_not(mask1,mask2);
+	bitwise_not(mask1,mask2); // Inverting each bit of an array to get the color which is not desired
 	Mat res1, res2, final_output;
 
 	// Segmenting the cloth out of the frame using bitwise and with the inverted mask

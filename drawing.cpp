@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
-#include<iomanip>
-#include<cv.h>
+#include <iomanip>
+#include <cv.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/imgproc/imgproc_c.h>
@@ -16,16 +16,16 @@ void Myellipse(Mat img, double angle)
 {
 
 	int thick = 2, line = 8;
-	ellipse(img, Point(w/2, w/2), Size(w/4, w/16), angle, 0, 360, Scalar(255, 0, 0), thick, line);
+	ellipse(img, Point(w/2, w/2), Size(w/4, w/16), angle, 0, 360, Scalar(255, 0, 0), thick, line); // draw ellipse
 
 }
 
 void MyFilledCircle( Mat img, Point center )
 {
-  circle(img, center, w/32, Scalar(0, 255, 0), CV_FILLED, 8, 0);
+  circle(img, center, w/32, Scalar(0, 255, 0), CV_FILLED, 8, 0);	// draw circle
 }
 
-void MyLine( Mat img, Point start, Point end )
+void MyLine( Mat img, Point start, Point end )		// draw line
 {
   int thickness = 2;
   int lineType = 8;
@@ -51,6 +51,6 @@ int main(void)
 	imshow(atom_window, atom_image);
 	moveWindow( atom_window, 0, 200 );
 	// cout<<atom_image;
-	waitKey(0);
+	waitKey(0);		// displays the window until any key is pressed
 	return(0);
 }
